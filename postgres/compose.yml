@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  teste-postgres-compose:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "reality"
+      POSTGRES_USER: "reality"
+      POSTGRES_DB: "reality"
+    ports:
+      - "15432:5432"
+    volumes:
+      - ./:/postgres/data
+    networks:
+      - postgres-compose-network
+
+  teste-pgadmin-compose:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "reality@playmatch.com"
+      PGADMIN_DEFAULT_PASSWORD: "reality"
+    ports:
+      - "16543:80"
+    depends_on:
+      - teste-postgres-compose
+    networks:
+      - postgres-compose-network
+
+networks:
+  postgres-compose-network:
+    driver: bridge
